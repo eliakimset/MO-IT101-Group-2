@@ -13,8 +13,9 @@ If Java is not installed in your computer proceed to [Java's website](https://ww
 
 Terminal or Command Prompt:
 Ensure that you have access to a terminal or command prompt environment for executing Java commands and running the code.
-IDE (Optional but Recommended):
 
+
+IDE (Optional but Recommended):
 While not strictly necessary, an Integrated Development Environment (IDE) such as IntelliJ IDEA, NetBeans, or Visual Studio Code can significantly enhance your development experience.
 
 
