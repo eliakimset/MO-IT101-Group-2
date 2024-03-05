@@ -25,4 +25,15 @@ Installation Guide:
 - [Visual Studio Code](https://code.visualstudio.com/download)
 
 # Usage
-To use the program, simply launch it and follow the instructions provided. The program's interface guides you through the necessary steps as it operates primarily through a numeric control system. Input numeric commands as instructed to navigate and interact with the program's features and functionalities.
+To use the program, launch it and follow the instructions provided. The program's interface guides you through the necessary steps as it operates primarily through a numeric control system. Input numeric commands as instructed to navigate and interact with the program's features and functionalities.
+
+# Project Management
+For our project management, we use Google Spreadsheet and Jira Software to achieve all our project goals within the given constraints. 
+- We are able to manage our time efficiently
+- We improved  the overall quality and productivity of work
+- It saved time and resources
+- Better project planning = better projects
+
+  Links:
+- [Google Spreadsheet](https://docs.google.com/spreadsheets/d/1hveaIo_RQaeWB975ikwjrxHinlu2gHpBqsrP3sTJHco/edit#gid=1584572912)
+- [Jira Software](https://motorph.atlassian.net/jira/software/projects/KAN/boards/1)
