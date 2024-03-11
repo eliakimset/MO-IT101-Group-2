@@ -27,6 +27,12 @@ Installation Guide:
 # Usage
 To use the program, launch it and follow the instructions provided. The program's interface guides you through the necessary steps as it operates primarily through a numeric control system. Input numeric commands as instructed to navigate and interact with the program's features and functionalities.
 
+# Instructions
+- Kindly select the Employee Number you are looking for. (Employee Numbers are between 1 to 34)
+- After selecting the Employee Number, input the number of days He/She has or will work. (Code reads the time in HH:MM Format)
+- Afterwards you will be given the choice of printing out the Payslip. (Simply input Y or N to do so)
+- If you decided to input Y, you will be given the choice to repeat the process once again. (Simply input Y or N to do so)
+
 # Project Management
 For our project management, we use Google Spreadsheet and Jira Software to achieve all our project goals within the given constraints. 
 - We are able to manage our time efficiently
