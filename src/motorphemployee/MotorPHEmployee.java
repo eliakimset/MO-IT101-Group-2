@@ -16,23 +16,34 @@ import java.text.DecimalFormat;
  */
 
 public class MotorPHEmployee {
+
+        // Define constants
+        private static final int MAX_EMPLOYEE_NUMBER = 34;//Maximum Employee
+        private static final int MAX_DAYS_WORKED = 31; //Assuming the Maximum working days is 31
+        private static final int GRACE_PERIOD_MINUTES = 10; // Grace Period
+        private static final int STANDARD_WORK_START_HOUR = 8;
+        private static final int NINE_AM_MINUTES = 540; //9:00 AM
+        private static final int EIGHT_TEN_AM_MINUTES = 490; //8:10 AM
+        private static final int MAX_BREAK_HOURS = 4; //Assuming you'll get a break when you worked for 4+ hours
     public static void main(String[] args) {
         Scanner scan = new Scanner(System.in);
         Employee employee = new Employee();
         
         // Display header for the program
         displayHeader();
-        
+
+        // Display Instruction
+        printInstruction();
         char choice;
         do { 
             displayEmployee(); //Display Employee
             int x = -1; // Initialize with an invalid value
             // Prompt user to enter valid employee number
-            while (x < 1 || x > 34) {
+            while (x < 1 || x > MAX_EMPLOYEE_NUMBER) {
                 try {
                     System.out.print("Enter Employee Number (1-34): ");
                     x = scan.nextInt();
-                    if (x < 1 || x > 34) {
+                    if (x < 1 || x > MAX_EMPLOYEE_NUMBER) {
                         System.out.println("Invalid input. Please enter a number between 1 and 34.");
                     }
                 } catch (InputMismatchException e) {
@@ -44,7 +55,7 @@ public class MotorPHEmployee {
             int index = x - 1;
 
             // Display employee information if employee number is valid
-            if (x >= 1 && x <= 34) {
+            if (x >= 1 && x <= MAX_EMPLOYEE_NUMBER) {
                 // Display employee information
                 clearOutputWindow();
                 System.out.println("-----------------------------------------");
@@ -71,11 +82,11 @@ public class MotorPHEmployee {
 
                 // Capture number of days the employee will work
                 int daysWorked = 0;
-                while (daysWorked <= 0 || daysWorked > 31) {
+                while (daysWorked <= 0 || daysWorked > MAX_DAYS_WORKED) {
                     try {
                         System.out.print("Enter number of days employee will work: "); //Maximum of 31 days
                         daysWorked = scan.nextInt();
-                        if (daysWorked <= 0 || daysWorked > 31) {
+                        if (daysWorked <= 0 || daysWorked > MAX_DAYS_WORKED) {
                             System.out.println("Invalid input. Please enter a positive number of days");
                         }
                     } catch (InputMismatchException e) {
@@ -126,27 +137,25 @@ public class MotorPHEmployee {
                         } catch (NumberFormatException | ArrayIndexOutOfBoundsException e) {
                             System.out.println("Invalid time format. Please enter time in HH:MM format.");
                         }
-                    }
-                
-                    int ninebeyond = 540, eighttenBeyond = 490; // 540 = 9:00 AM, 490 = 8:10 AM
+                    }   
                 
                     // Calculate total worked hours
                     double workedHours = (timeOutHours - timeInHours);
                 
                     // Grace Period
-                    if (timeInMinutes > 10 && timeInHours == 8) {
+                    if (timeInMinutes > GRACE_PERIOD_MINUTES && timeInHours == STANDARD_WORK_START_HOUR) {
                         workedHours--;
                     }
                 
                     // 9AM beyond
-                    if (timeInConvMinutes > ninebeyond) {
+                    if (timeInConvMinutes > NINE_AM_MINUTES) {
                         workedHours--;
                     }
                 
                     String status = ""; // Variable to store the status
                 
                     // Late Counter
-                    if (timeInConvMinutes > eighttenBeyond) {
+                    if (timeInConvMinutes > EIGHT_TEN_AM_MINUTES) {
                         totalLate++;
                         status = "Late";
                     } else {
@@ -166,7 +175,7 @@ public class MotorPHEmployee {
                     }
                 
                     // Break Time
-                    if (workedHours > 4) { // Worked for more than 2 hours
+                    if (workedHours > MAX_BREAK_HOURS) { // Worked for more than 2 hours
                         workedHours--;
                     }
                 
@@ -1096,7 +1105,7 @@ public class MotorPHEmployee {
                 System.out.println("\t\t\t    --------------------");
                 System.out.println("\t\t\t           Group 2");
                 System.out.println("\t\t\t    --------------------");
-                System.out.println("\n");
+                System.out.print("\n");
             }  
 
             //Display Employee
@@ -1155,5 +1164,25 @@ public class MotorPHEmployee {
     public static String formatCurrency(double amount) {
         DecimalFormat formatter = new DecimalFormat("#,##0.00");
         return "PHP " + formatter.format(amount);
+    }
+
+    // Instruction
+    public static void printInstruction() {
+                System.out.println("Welcome to the MotorPH Employee Management System!");
+                System.out.println("This program allows you to generate payslips for MotorPH employees based on their attendance and other relevant details.");
+                System.out.println("To begin, please follow the instructions provided.");
+                System.out.println();
+                System.out.println("Instructions:");
+                System.out.println("1. You will be prompted to enter an employee number between 1 and 34.");
+                System.out.println("2. Once you enter a valid employee number, you will see the employee's information, including their name, contact details, and employment status.");
+                System.out.println("3. You will then be asked to input the number of days the employee worked during the pay period (maximum of 31 days).");
+                System.out.println("4. For each working day, you will need to enter the time in and time out in the format HH:MM.");
+                System.out.println("5. The system will calculate various metrics, such as total worked hours, presence, lateness, overtime, and more.");
+                System.out.println("6. After inputting all the necessary information, you will have the option to generate a payslip for the employee.");
+                System.out.println("7. The payslip will display detailed information about the employee's attendance, earnings, deductions, and net pay.");
+                System.out.println("8. You can choose to generate payslips for multiple employees or exit the program.");
+                System.out.println();
+                System.out.println("Let's get started!");
+                System.out.print("\n");
     }
 }
