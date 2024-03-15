@@ -1,206 +1,292 @@
-package motorphemployee;
-
+import java.util.InputMismatchException;
 import java.util.Scanner;
+import java.text.DecimalFormat;
+
+/**
+ * MO-IT101 - Computer Programming 1
+ * Mentor: Yves Tomkins Ocampo
+ * Section: A1103
+ * Group 2
+ * Members:
+ * Eliakim Set
+ * Edward Perocha
+ * Gino Franco Pineda
+ * Jan Danielle Geronimo
+ * Sarah Nicole Hular
+ */
 
 public class MotorPHEmployee {
     public static void main(String[] args) {
-        
         Scanner scan = new Scanner(System.in);
         Employee employee = new Employee();
         
-        Header();
+        // Display header for the program
+        displayHeader();
         
         char choice;
         do { 
-              // Continuously prompt for valid employee number
-        int x = -1; // Initialize with an invalid value
-        while (x < 1 || x > 34) {
-            System.out.print("Enter Employee Number (1-34): ");
-            x = scan.nextInt();
-            if (x < 1 || x > 34) {
-                System.out.println("Invalid input. Please enter a number between 1 and 34.");
+            displayEmployee(); //Display Employee
+            int x = -1; // Initialize with an invalid value
+            // Prompt user to enter valid employee number
+            while (x < 1 || x > 34) {
+                try {
+                    System.out.print("Enter Employee Number (1-34): ");
+                    x = scan.nextInt();
+                    if (x < 1 || x > 34) {
+                        System.out.println("Invalid input. Please enter a number between 1 and 34.");
+                    }
+                } catch (InputMismatchException e) {
+                    System.out.println("Invalid input. Please enter a valid integer.");
+                    scan.next(); // Clear the invalid input
+                }
             }
-        }
 
-        int index = x - 1;
+            int index = x - 1;
 
-        if (x >= 1 && x <= 34) {
-            // Display employee information
-            System.out.println("==========================================");
-            System.out.println("Employee Number: " + x);
-            System.out.println("Name: " + employee.employeeName[index]);
-            System.out.println("Employee Birthday: " + employee.Birthday[index]);
-            System.out.println("Phone number: " + employee.PhoneNumber[index]);
-            System.out.println("Address: " + employee.address[index]);
-            System.out.println("SSS #: " + employee.SSS[index]);
-            System.out.println("Philhealth #: " + employee.Philhealth[index]);
-            System.out.println("TIN #: " + employee.TIN[index]);
-            System.out.println("Pagibig #: " + employee.Pagibig[index]);
-            System.out.println("Status: " + employee.Status[index]);
-            System.out.println("Position: " + employee.Position[index]);
-            System.out.println("Immediate Supervisor: " + employee.Supervisor[index]);
-            System.out.println("Basic Salary: " + employee.Salary[index]);
-            System.out.println("Rice Subsidy: " + employee.RiceSubsidy[index]);
-            System.out.println("Phone Allowance: " + employee.PhoneAllowance[index]);
-            System.out.println("Clothing Allowance: " + employee.ClothingAllowance[index]);
-            System.out.println("Gross Semi-monthly Rate: " + employee.Gross_SemiMonthlyRate[index]);
-            System.out.println("Hourly Rate: " + employee.HourlyRate[index]);
-            System.out.println("==========================================");
+            // Display employee information if employee number is valid
+            if (x >= 1 && x <= 34) {
+                // Display employee information
+                clearOutputWindow();
+                System.out.println("-----------------------------------------");
+                System.out.println("Employee Number: " + x);
+                System.out.println("Name: " + employee.employeeName[index]);
+                System.out.println("Employee Birthday: " + employee.Birthday[index]);
+                System.out.println("Phone number: " + employee.PhoneNumber[index]);
+                System.out.println("Address: " + employee.address[index]);
+                System.out.println("SSS #: " + employee.SSS[index]);
+                System.out.println("Philhealth #: " + employee.Philhealth[index]);
+                System.out.println("TIN #: " + employee.TIN[index]);
+                System.out.println("Pagibig #: " + employee.Pagibig[index]);
+                System.out.println("Status: " + employee.Status[index]);
+                System.out.println("Position: " + employee.Position[index]);
+                System.out.println("Immediate Supervisor: " + employee.Supervisor[index]);
+                System.out.println("Basic Salary: " + employee.Salary[index]);
+                System.out.println("Rice Subsidy: " + employee.RiceSubsidy[index]);
+                System.out.println("Phone Allowance: " + employee.PhoneAllowance[index]);
+                System.out.println("Clothing Allowance: " + employee.ClothingAllowance[index]);
+                System.out.println("Gross Semi-monthly Rate: " + employee.Gross_SemiMonthlyRate[index]);
+                System.out.println("Hourly Rate: " + employee.HourlyRate[index]);
+                System.out.println("-----------------------------------------");
+                System.out.print("\n");
 
-            // Capture number of days the employee will work
-            System.out.print("Enter number of days employee will work: ");
-            int daysWorked = scan.nextInt();
-
-            int presentCounter = 0;
-            int absentCounter = 0;
-            int totalLate = 0;
-            int overtimeCounter = 0;
-            double totalWorkedHours = 0;
-            double totalSalary = 0;
-
-            // Capture time in and out for each day
-            for (int i = 0; i < daysWorked; i++) {
-                System.out.print("Enter time in for day " + (i + 1) + " (HH:MM): ");
-                String timeIn = scan.next();
-                System.out.print("Enter time out for day " + (i + 1) + " (HH:MM): ");
-                String timeOut = scan.next();
-
-                // Parse time in and out to calculate worked hours
-                int timeInHours = Integer.parseInt(timeIn.split(":")[0]);
-                int timeOutHours = Integer.parseInt(timeOut.split(":")[0]);
-                int timeInMinutes = Integer.parseInt(timeIn.split(":")[1]);
-                int timeOutMinutes = Integer.parseInt(timeOut.split(":")[1]);
-                int timeInConvMinutes = (timeInHours * 60) + timeInMinutes;
-                int timeOutConvMinutes = (timeOutHours * 60) + timeOutMinutes;
-
-                // Calculate total worked hours
-                double workedHours = (timeOutHours - timeInHours);
-
-                // Grace Period
-                if (timeInMinutes > 10 && timeInHours == 8) {
-                    workedHours--;
+                // Capture number of days the employee will work
+                int daysWorked = 0;
+                while (daysWorked <= 0 || daysWorked > 31) {
+                    try {
+                        System.out.print("Enter number of days employee will work: "); //Maximum of 31 days
+                        daysWorked = scan.nextInt();
+                        if (daysWorked <= 0 || daysWorked > 31) {
+                            System.out.println("Invalid input. Please enter a positive number of days");
+                        }
+                    } catch (InputMismatchException e) {
+                        System.out.println("Invalid input. Please enter a valid integer.");
+                        scan.next(); // Clear the invalid input
+                    }
                 }
 
-                // 9AM beyond
-                if (timeInConvMinutes > 540) {
-                    workedHours--;
-                }
+                // Variables to calculate various metrics
+                int presentCounter = 0, absentCounter = 0, totalLate = 0, overtimeCounter = 0;
+                double totalWorkedHours = 0, totalSalary = 0;
 
-                // Late Counter
-                if (timeInConvMinutes > 490) {
-                    totalLate++;
-                    System.out.println("Status: Late");
-                }
-
-                // Absent Counter
-                if (timeOutConvMinutes == 0 && timeInConvMinutes == 0) {
-                    absentCounter++;
-                    System.out.println("Status: Absent");
-                } else {
-                    presentCounter++;
-                    System.out.println("Status: Present");
-                }
-
-                // Overtime Counter
-                if (workedHours > 9){
-                    overtimeCounter++;
-                }
-
-                // Break Time
-                if (workedHours > 4) { // Worked for more than 2 hours
-                    workedHours--;
-                }
-
-                // Calculate the salary for the day based on the worked hours
-                double dailySalary = workedHours * employee.HourlyRate[index];
-
-                // Adding daily salary/hours
-                totalSalary += dailySalary;
-                totalWorkedHours += workedHours;
-
-                System.out.println("Total Worked Hours (Day " + (i + 1) + "): " + workedHours);
-                System.out.println("Daily Salary (Day " + (i + 1) + "): " + dailySalary);
-            }
+                // Capture time in and out for each day and calculate metrics
                 
-            
-            System.out.println("Do you want to create Payslip? (Y/N)");
+                int timeInHours = 0, timeOutHours = 0, timeInMinutes = 0, timeOutMinutes = 0, timeInConvMinutes = 0, timeOutConvMinutes = 0;
 
+                for (int i = 0; i < daysWorked; i++) {
+                    String timeIn;
+                    String timeOut;
+                    boolean validTime = false;
+                
+                    while (!validTime) {
+                        try {
+                            System.out.println("DAY "  + (i + 1));
+                            System.out.print("Time In (HH:MM): ");
+                            timeIn = scan.next();
+                            System.out.print("Time Out (HH:MM): ");
+                            timeOut = scan.next();
+                            System.out.print("\n");
+                
+                            // Validate time format
+                            String[] timeInParts = timeIn.split(":");
+                            String[] timeOutParts = timeOut.split(":");
+                            timeInHours = Integer.parseInt(timeInParts[0]);
+                            timeInMinutes = Integer.parseInt(timeInParts[1]);
+                            timeOutHours = Integer.parseInt(timeOutParts[0]);
+                            timeOutMinutes = Integer.parseInt(timeOutParts[1]);
+                
+                            timeInConvMinutes = (timeInHours * 60) + timeInMinutes;
+                            timeOutConvMinutes = (timeOutHours * 60) + timeOutMinutes;
+                
+                            if (timeInHours >= 0 && timeInHours < 24 && timeInMinutes >= 0 && timeInMinutes < 60 &&
+                                    timeOutHours >= 0 && timeOutHours < 24 && timeOutMinutes >= 0 && timeOutMinutes < 60) {
+                                validTime = true;
+                            } else {
+                                System.out.println("Invalid time format or time exceeds 24:00. Please try again.");
+                            }
+                        } catch (NumberFormatException | ArrayIndexOutOfBoundsException e) {
+                            System.out.println("Invalid time format. Please enter time in HH:MM format.");
+                        }
+                    }
+                
+                    int ninebeyond = 540, eighttenBeyond = 490; // 540 = 9:00 AM, 490 = 8:10 AM
+                
+                    // Calculate total worked hours
+                    double workedHours = (timeOutHours - timeInHours);
+                
+                    // Grace Period
+                    if (timeInMinutes > 10 && timeInHours == 8) {
+                        workedHours--;
+                    }
+                
+                    // 9AM beyond
+                    if (timeInConvMinutes > ninebeyond) {
+                        workedHours--;
+                    }
+                
+                    String status = ""; // Variable to store the status
+                
+                    // Late Counter
+                    if (timeInConvMinutes > eighttenBeyond) {
+                        totalLate++;
+                        status = "Late";
+                    } else {
+                        // Absent Counter
+                        if (timeOutConvMinutes == 0 && timeInConvMinutes == 0) {
+                            absentCounter++;
+                            status = "Absent";
+                        } else {
+                            presentCounter++;
+                            status = "Present";
+                        }
+                    }
+            
+                    // Overtime Counter
+                    if (workedHours > 9){
+                        overtimeCounter++;
+                    }
+                
+                    // Break Time
+                    if (workedHours > 4) { // Worked for more than 2 hours
+                        workedHours--;
+                    }
+                
+                    // Calculate the salary for the day based on the worked hours
+                    double dailySalary = workedHours * employee.HourlyRate[index];
+                
+                    // Adding daily salary/hours
+                    totalSalary += dailySalary;
+                    totalWorkedHours += workedHours;
+                    
+                    System.out.println("DAY " + (i + 1));
+                    System.out.println("Total Worked Hours : " + workedHours);
+                    System.out.println("Daily Salary : " + dailySalary);
+                    // Print the status for the day
+                    System.out.println("Status: " + status);
+                    System.out.print("\n");
+                }
+
+                System.out.println("Do you want to create Payslip? (Y/N)");
                 String response = scan.next();
 
                 if (response.equalsIgnoreCase("Y")){
+                    // SSS Contribution Declaration
+                    double sssContribution = calculateSSSContribution(totalSalary);
+
+                    // PhilHealth Contribution Declaration
+                    double philHealthContribution = calculatePhilHealthContribution(totalSalary);
+
+                    // PagIbig Contribution Declaration
+                    double pagibigContribution = calculatePagibigContribution(totalSalary);
                     
+
+        //Payslip
+        clearOutputWindow();
+        // Display header
+        System.out.println("MOTORPH EMPLOYEE PAYSLIP");
+        System.out.println("---------------------------------------------");
+
+        // Display Employee Information
+        System.out.println("EMPLOYEE INFORMATION");
+        System.out.println("---------------------------------------------");
+        System.out.printf("%-20s: %s%n", "Employee Number", x);
+        System.out.printf("%-20s: %s%n", "Name", employee.employeeName[index]);
+        System.out.printf("%-20s: %s%n", "Hourly Rate", employee.HourlyRate[index]);
+        System.out.println();
+
+        // Display Attendance
+        System.out.println("ATTENDANCE");
+        System.out.println("---------------------------------------------");
+        System.out.printf("%-20s: %s%n", "Total Working Days", daysWorked);
+        System.out.printf("%-20s: %s%n", "Total Present", presentCounter);
+        System.out.printf("%-20s: %s%n", "Total Absent", absentCounter);
+        System.out.printf("%-20s: %s%n", "Total Late", totalLate);
+        System.out.printf("%-20s: %s%n", "Total Overtime", overtimeCounter);
+        System.out.printf("%-20s: %s%n", "Total Worked Hours", totalWorkedHours);
+        System.out.println();
+
+        // Display Gross Pay
+        System.out.println("GROSS PAY");
+        System.out.println("---------------------------------------------");
+        System.out.printf("%-20s: %s%n", "Total Salary", formatCurrency(totalSalary));
+        System.out.println();
+
+        // Display Benefits
+        System.out.println("BENEFITS");
+        System.out.println("---------------------------------------------");
+        System.out.printf("%-20s: %s%n", "Rice Subsidy", formatCurrency(employee.RiceSubsidy[index]));
+        System.out.printf("%-20s: %s%n", "Phone Allowance", formatCurrency(employee.PhoneAllowance[index]));
+        System.out.printf("%-20s: %s%n", "Clothing Allowance", formatCurrency(employee.ClothingAllowance[index]));
+        System.out.println();
+
+        // Display Government Deductions
+        System.out.println("GOVERNMENT DEDUCTIONS");
+        System.out.println("---------------------------------------------");
+        System.out.printf("%-20s: %s%n", "SSS Contribution", formatCurrency(sssContribution));
+        System.out.printf("%-20s: %s%n", "PhilHealth Contribution", formatCurrency(philHealthContribution));
+        System.out.printf("%-20s: %s%n", "PagIbig Contribution", formatCurrency(pagibigContribution));
+        double totalContribution = sssContribution + philHealthContribution + pagibigContribution;
+        System.out.printf("%-20s: %s%n", "Total Contribution", formatCurrency(totalContribution));
+        System.out.println();
+
+        // Calculate Gross Pay
+        double grossPay = totalSalary - totalContribution;
+
+        // Display Withholding Tax
+        System.out.println("WITHHOLDING TAX");
+        System.out.println("---------------------------------------------");
+        double withholdingTax = calculateWithholdingTax(grossPay);
+        System.out.printf("%-20s: %s%n", "Withholding Tax", formatCurrency(withholdingTax));
+        printCalculation(grossPay);
+        System.out.println();
+
+        // Calculate Net Pay
+        double netPay = grossPay - withholdingTax;
+
+        // Display Net Pay
+        System.out.println("NET PAY");
+        System.out.println("---------------------------------------------");
+        System.out.printf("%-20s: %s%n", "Net Pay", formatCurrency(netPay));
+        System.out.println("\n");
+
                 } else if (response.equalsIgnoreCase("N")) {
                     System.out.println("Exiting creating payslip.");
-                    return;
                 } else {
                     System.out.println("Invalid input. Please enter Y or N.");
                 }
+            } else {
+                System.out.println("Employee number out of range.");
+            }
 
-                // SSS Contribution Declaration
-                double sssContribution = calculateSSSContribution(totalSalary);
+            // Prompt user if they want to search again
+            System.out.println("Do you want to search again? Y/N");
+            choice = Character.toUpperCase(scan.next().charAt(0));
+            clearOutputWindow();
+        } while (choice == 'Y');
 
-                // PhilHealth Contribution Delcaration
-                double philHealthContribution = calculatePhilHealthContribution(totalSalary);
-
-                // PagIbig Contribution Declaration
-                double pagibigContribution = calculatePagibigContribution(totalSalary);
-
-                //Payslip
-                System.out.println("-------------------------------------------");
-                System.out.println("MOTORPH EMPLOYEE PAYSLIP");
-                System.out.println("-------------------------------------------");
-                System.out.println("EMPLOYEE INFORMATION");
-                System.out.println();
-                System.out.println("Employee Number: " + x);
-                System.out.println("Name: " + employee.employeeName[index]);
-                System.out.println("Hourly Rate: " + employee.HourlyRate[index]);
-                System.out.println("-------------------------------------------");
-                System.out.println("ATTENDANCE");
-                System.out.println();
-                System.out.println("Total Working Days: " + daysWorked);
-                System.out.println("Total Present: " + presentCounter);
-                System.out.println("Total Absent: " + absentCounter);
-                System.out.println("Total Late: " + totalLate);
-                System.out.println("Total Overtime: " + overtimeCounter);
-                System.out.println("Total Worked Hours: " + totalWorkedHours);
-                System.out.println();
-                System.out.println("Gross Pay: " + totalSalary);
-                System.out.println("-------------------------------------------");
-                System.out.println("BENEFITS");
-                System.out.println();
-                System.out.println("Rice Subsidy: " + employee.RiceSubsidy[index]);
-                System.out.println("Phone Allowance: " + employee.PhoneAllowance[index]  );
-                System.out.println("Clothing Allowance: " + employee.ClothingAllowance[index]);
-                System.out.println("-------------------------------------------");
-                System.out.println("GOVERNMENT DEDUCTION");
-                System.out.println();
-                System.out.println("SSS Contribution :" + sssContribution);
-                System.out.println("PhilHealth Contribution :" + philHealthContribution);
-                System.out.println("PagIbig Contribution :" + pagibigContribution);
-                double governmentTax = (sssContribution + philHealthContribution + pagibigContribution);
-                System.out.println();
-                System.out.println("Total Contribution: " + governmentTax);
-                System.out.println("-------------------------------------------");
-                double grossPay = totalSalary - governmentTax;
-                
-                // Witholding Tax Declaration
-                double withholdingTax = calculateWithholdingTax(grossPay);
-                System.out.println("WITHHOLDING TAX");
-                System.out.println();
-                System.out.println("Wthholding Tax: " + withholdingTax);
-                printCalculation(grossPay);
-
-                System.out.println("-------------------------------------------");
-                double netPay = grossPay - withholdingTax;
-                System.out.println("Net Pay: " + netPay);
-                System.out.println("-------------------------------------------");
-    }
-                System.out.println("Do you want to search again? Y/N");
-                choice = scan.next().charAt(0);
-                clearOutputWindow();
-}               while(choice == 'Y'|choice == 'y');
+        scan.close();
     }
     
+    // Employee Information Method
     public static class Employee {
     // Personal Information
     String[] employeeName = {"Garcia, Manuel III",
@@ -804,7 +890,7 @@ public class MotorPHEmployee {
             313.51};
     }
 
-
+            //SSS Method
             public static double calculateSSSContribution(double totalSalary) {
                 double sssContribution = 0;
                 
@@ -903,6 +989,7 @@ public class MotorPHEmployee {
                 return sssContribution;
             }
 
+            //Philhealth Method
             public static double calculatePhilHealthContribution(double totalSalary) {
                 double premiumRate = 0.03; // 3% Premium Rate
         
@@ -920,6 +1007,7 @@ public class MotorPHEmployee {
                 return monthlyPremium;
             }
 
+            //Pagibig Method
             public static double calculatePagibigContribution(double totalSalary) {
                 double employeeContributionRate = 0;
                 double employerContributionRate = 0;
@@ -941,6 +1029,7 @@ public class MotorPHEmployee {
                 return totalContribution;
             }
 
+            //Withholding Tax Method
             public static double calculateWithholdingTax(double grossPay) {
                 double withholdingTax = 0;
         
@@ -961,36 +1050,40 @@ public class MotorPHEmployee {
                 return withholdingTax;
             }
 
-            public static void printCalculation(double grossPay) {
-                if (grossPay > 20832 && grossPay <= 33333) {
-                    double excessAmount = grossPay - 20832;
-                    double calculation = excessAmount * 0.20;
-                    System.out.println("Calculation (20% in excess of 20,833): " + excessAmount + " * 20% = " + calculation);
-                } else if (grossPay > 33333 && grossPay <= 66667) {
-                    double excessAmount = grossPay - 33333;
-                    double calculation = excessAmount * 0.25;
-                    System.out.println("Calculation (25% in excess of 33,333): " + excessAmount + " * 25% = " + calculation);
-                } else if (grossPay > 66667 && grossPay <= 166667) {
-                    double excessAmount = grossPay - 66667;
-                    double calculation = excessAmount * 0.30;
-                    System.out.println("Calculation (30% in excess of 66,667): " + excessAmount + " * 30% = " + calculation);
-                } else if (grossPay > 166667 && grossPay <= 666667) {
-                    double excessAmount = grossPay - 166667;
-                    double calculation = excessAmount * 0.32;
-                    System.out.println("Calculation (32% in excess of 166,667): " + excessAmount + " * 32% = " + calculation);
-                } else if (grossPay > 666667) {
-                    double excessAmount = grossPay - 666667;
-                    double calculation = excessAmount * 0.35;
-                    System.out.println("Calculation (35% in excess of 666,667): " + excessAmount + " * 35% = " + calculation);
-                }
-            }
+           //Printing Withholding Tax
+    public static void printCalculation(double grossPay) {
+        if (grossPay > 20832 && grossPay <= 33333) {
+            double excessAmount = grossPay - 20832;
+            double calculation = excessAmount * 0.20;
+            System.out.printf("Calculation (20%% in excess of 20,833): %.2f * 20%% = %.2f%n", excessAmount, calculation);
+        } else if (grossPay > 33333 && grossPay <= 66667) {
+            double excessAmount = grossPay - 33333;
+            double calculation = excessAmount * 0.25;
+            System.out.printf("Calculation (25%% in excess of 33,333): %.2f * 25%% = %.2f%n", excessAmount, calculation);
+        } else if (grossPay > 66667 && grossPay <= 166667) {
+            double excessAmount = grossPay - 66667;
+            double calculation = excessAmount * 0.30;
+            System.out.printf("Calculation (30%% in excess of 66,667): %.2f * 30%% = %.2f%n", excessAmount, calculation);
+        } else if (grossPay > 166667 && grossPay <= 666667) {
+            double excessAmount = grossPay - 166667;
+            double calculation = excessAmount * 0.32;
+            System.out.printf("Calculation (32%% in excess of 166,667): %.2f * 32%% = %.2f%n", excessAmount, calculation);
+        } else if (grossPay > 666667) {
+            double excessAmount = grossPay - 666667;
+            double calculation = excessAmount * 0.35;
+            System.out.printf("Calculation (35%% in excess of 666,667): %.2f * 35%% = %.2f%n", excessAmount, calculation);
+        }
+    }
+
             public static void clearOutputWindow() {
              for (int i = 0; i < 50; i++) {
             System.out.println();
-    }
             }
-            public static void Header() {
-                            System.out.println("\t\t/========================================\\");
+        }
+
+            //Header Display
+            public static void displayHeader() {
+                System.out.println("\t\t/========================================\\");
                 System.out.println("\t\t||   __  ___     __           ___  __ __||");
                 System.out.println("\t\t||  /  |/  /__  / /____  ____/ _ \\/ // /||");
                 System.out.println("\t\t|| / /|_/ / _ \\/ __/ _ \\/ __/ ___/ _  / ||");
@@ -1003,5 +1096,64 @@ public class MotorPHEmployee {
                 System.out.println("\t\t\t    --------------------");
                 System.out.println("\t\t\t           Group 2");
                 System.out.println("\t\t\t    --------------------");
-            }     
+                System.out.println("\n");
+            }  
+
+            //Display Employee
+            public static void displayEmployee() {
+                        // Print employee list
+        System.out.println("\t\t+-------------+--------------+----------------+");
+        System.out.println("\t\t| Employee #  | Last Name    | First Name     |");
+        System.out.println("\t\t+-------------+--------------+----------------+");
+        
+        // Print each employee
+        printEmployeeRow(1, "Garcia", "Manuel III");
+        printEmployeeRow(2, "Lim", "Antonio");
+        printEmployeeRow(3, "Aquino", "Bianca Sofia");
+        printEmployeeRow(4, "Reyes", "Isabella");
+        printEmployeeRow(5, "Hernandez", "Eduard");
+        printEmployeeRow(6, "Villanueva", "Andrea Mae");
+        printEmployeeRow(7, "San Jose", "Brad");
+        printEmployeeRow(8, "Romualdez", "Alice");
+        printEmployeeRow(9, "Atienza", "Rosie");
+        printEmployeeRow(10, "Alvaro", "Roderick");
+        printEmployeeRow(11, "Salcedo", "Anthony");
+        printEmployeeRow(12, "Lopez", "Josie");
+        printEmployeeRow(13, "Farala", "Martha");
+        printEmployeeRow(14, "Martinez", "Leila");
+        printEmployeeRow(15, "Romualdez", "Fredrick");
+        printEmployeeRow(16, "Mata", "Christian");
+        printEmployeeRow(17, "De Leon", "Selena");
+        printEmployeeRow(18, "San Jose", "Allison");
+        printEmployeeRow(19, "Rosario", "Cydney");
+        printEmployeeRow(20, "Bautista", "Mark");
+        printEmployeeRow(21, "Lazaro", "Darlene");
+        printEmployeeRow(22, "Delos Santos", "Kolby");
+        printEmployeeRow(23, "Santos", "Vella");
+        printEmployeeRow(24, "Del Rosario", "Tomas");
+        printEmployeeRow(25, "Tolentino", "Jacklyn");
+        printEmployeeRow(26, "Gutierrez", "Percival");
+        printEmployeeRow(27, "Manalaysay", "Garfield");
+        printEmployeeRow(28, "Villegas", "Lizeth");
+        printEmployeeRow(29, "Ramos", "Carol");
+        printEmployeeRow(30, "Maceda", "Emelia");
+        printEmployeeRow(31, "Aguilar", "Delia");
+        printEmployeeRow(32, "Castro", "John Rafael");
+        printEmployeeRow(33, "Martinez", "Carlos Ian");
+        printEmployeeRow(34, "Santos", "Beatriz");
+
+        // Print bottom border
+        System.out.println("\t\t+-------------+--------------+----------------+");
+        System.out.println("\n");
+    }
+
+    // Print each employee row
+    private static void printEmployeeRow(int employeeNumber, String lastName, String firstName) {
+        System.out.printf("\t\t| %-11d | %-12s | %-14s |%n", employeeNumber, lastName, firstName);
+    }
+    // Format currency amount method
+    public static String formatCurrency(double amount) {
+        DecimalFormat formatter = new DecimalFormat("#,##0.00");
+        return "PHP " + formatter.format(amount);
+    }
 }
