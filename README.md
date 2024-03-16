@@ -4,9 +4,7 @@
 
 Welcome to the MotorPH Payroll System Proposal Repository! This project aims to address the identified gaps and problems in the existing flow of operations related to the Payroll Management at MotorPH. As part of the companies Development Team, we have been tasked with designing and creating a comprehensive business technology proposal and a database to be implemented in the next fiscal year.
 
-
 ![motorph](https://github.com/eliakimset/MO-IT101-Group-2/assets/162069953/f4fe341e-1160-4e78-bd46-c7ba80093b35)
-
 
 # Requirements
 If Java is not installed in your computer proceed to [Java's website](https://www.oracle.com/ph/java/technologies/downloads/#java21) and follow the instructions.
