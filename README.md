@@ -27,7 +27,7 @@ To use the program, simply launch it in an IDE of your liking and follow the ins
 
 # Instructions
 - Kindly select the Employee Number you are looking for. (Applicable Employee Numbers are between 1 to 34)
-- After selecting the Employee Number, input the number of days He/She has or will work. (Code reads the time in HH:MM Format and is set as Military Time)
+- After selecting the Employee Number, input the number of days He/She has or will work. (Code reads in HH:MM Format and Military Time)
 - Afterwards you will be given the choice of printing out the Payslip. (Simply input Y to print it out or N to not do so)
 - If you decided to input Y, afterwards you will be given the choice to repeat the process once again. (Simply input Y to repeat it or N to exit the program)
 
