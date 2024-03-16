@@ -41,3 +41,15 @@ For our project management, we used Google Spreadsheet and Jira Software to achi
   Links:
 - [Google Spreadsheet](https://docs.google.com/spreadsheets/d/1hveaIo_RQaeWB975ikwjrxHinlu2gHpBqsrP3sTJHco/edit#gid=1584572912)
 - [Jira Software](https://motorph.atlassian.net/jira/software/projects/KAN/boards/1)
+
+# Contributing 
+Remember that we are incredibly appreciative that you allowed us to participate in the MotorPH Payroll System project! It makes no difference if you're submitting even lines of code, seeing new features, or pushing problems to be repaired. All of this contributes to improving the system for all users. 
+
+Bug Reports: Please submit a GitHub issue if you encounter any difficulties implementing the codes and make sure you have the prerequisite knowledge to run them. The procedures to replicate the mistake may be included in these details. 
+
+Feature Requests: Have you thought of a concept for a new feature or enhancement? Send it to us with the same general idea by creating a GitHub issue and succinctly outlining the features you would like to add. 
+
+Pull Requests: If you're interested in making changes to the code repository through pull requests, fork the repository, modify the desired code, and submit your pull request! Verify that the code adheres to the project's code standard and that each modification has a comment attached.
+
+Documentation: Along with other enhancements, it would be very welcomed if the readme documentation was updated. Please feel free to email us information on the corrections if you believe that any information is missing or the data is inaccurate.
+
