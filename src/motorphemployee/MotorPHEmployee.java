@@ -155,12 +155,12 @@ public static void main(String[] args) {
                         workedHours = timeOutHours - timeInHours;
                     }
 
-                    // Decrement worked hours if employee logs in with minutes, but not affected by the grace period
+                    // Decrement worked hours if user input greater than 0 in minutes and it doesn't affect the 8 AM
                     if (timeInMinutes > 0 && timeInHours != STANDARD_WORK_START_HOUR) {
                         workedHours--;
                     }
 
-                    // Decrement worked hours if employee logs in after the grace period
+                    // Since 8AM doesn't affected,  if user input 8 hours and 10-59 minutes in time in, the worked hours will decrement
                     if (timeInMinutes > GRACE_PERIOD_MINUTES && timeInHours == STANDARD_WORK_START_HOUR) {
                         workedHours--;
                     } 
