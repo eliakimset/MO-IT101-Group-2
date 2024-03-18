@@ -180,7 +180,7 @@ public static void main(String[] args) {
                         absentCounter++;
                         status = "Absent";
                     } else {
-                                            presentCounter++;
+                        presentCounter++;
                         status = "Present";
                     }
 
