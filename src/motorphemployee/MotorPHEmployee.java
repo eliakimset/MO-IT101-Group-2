@@ -175,7 +175,7 @@ public class MotorPHEmployee {
                     }
                 
                     // Break Time
-                    if (workedHours > MAX_BREAK_HOURS) { // Worked for more than 2 hours
+                    if (workedHours > MAX_BREAK_HOURS) { // Worked for more than 4 hours
                         workedHours--;
                     }
                 
@@ -186,7 +186,7 @@ public class MotorPHEmployee {
                     totalSalary += dailySalary;
                     totalWorkedHours += workedHours;
                     
-                    System.out.println("DAY " + (i + 1));
+                    System.out.println("DAY " + (index));
                     System.out.println("Total Worked Hours : " + workedHours);
                     System.out.println("Daily Salary : " + dailySalary);
                     // Print the status for the day
@@ -1083,7 +1083,7 @@ public class MotorPHEmployee {
             System.out.printf("Calculation (35%% in excess of 666,667): %.2f * 35%% = %.2f%n", excessAmount, calculation);
         }
     }
-
+            //Clearing Windows
             public static void clearOutputWindow() {
              for (int i = 0; i < 50; i++) {
             System.out.println();
@@ -1115,7 +1115,6 @@ public class MotorPHEmployee {
         System.out.println("\t\t| Employee #  | Last Name    | First Name     |");
         System.out.println("\t\t+-------------+--------------+----------------+");
         
-        // Print each employee
         printEmployeeRow(1, "Garcia", "Manuel III");
         printEmployeeRow(2, "Lim", "Antonio");
         printEmployeeRow(3, "Aquino", "Bianca Sofia");
@@ -1150,8 +1149,7 @@ public class MotorPHEmployee {
         printEmployeeRow(32, "Castro", "John Rafael");
         printEmployeeRow(33, "Martinez", "Carlos Ian");
         printEmployeeRow(34, "Santos", "Beatriz");
-
-        // Print bottom border
+        
         System.out.println("\t\t+-------------+--------------+----------------+");
         System.out.println("\n");
     }
