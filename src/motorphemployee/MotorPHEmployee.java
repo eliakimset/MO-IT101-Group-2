@@ -21,23 +21,28 @@ public class MotorPHEmployee {
         private static final int MAX_EMPLOYEE_NUMBER = 34;//Maximum Employee
         private static final int MAX_DAYS_WORKED = 31; //Assuming the Maximum working days is 31
         private static final int GRACE_PERIOD_MINUTES = 10; // Grace Period
-        private static final int STANDARD_WORK_START_HOUR = 8;
-        private static final int NINE_AM_MINUTES = 540; //9:00 AM
+        private static final int STANDARD_WORK_START_HOUR = 8; //Work will start at 8
         private static final int EIGHT_TEN_AM_MINUTES = 490; //8:10 AM
-        private static final int MAX_BREAK_HOURS = 4; //Assuming you'll get a break when you worked for 4+ hours
-    public static void main(String[] args) {
+        private static final int MAX_BREAK_HOURS = 6; //Assuming you'll get a break when you worked for more than 6 hours
+
+        // Main method for running the program
+public static void main(String[] args) {
         Scanner scan = new Scanner(System.in);
         Employee employee = new Employee();
         
-        // Display header for the program
+        // Display header
         displayHeader();
 
         // Display Instruction
         printInstruction();
         char choice;
+
+        //Loop for allowing repeating the program
         do { 
-            displayEmployee(); //Display Employee
+            displayEmployee(); // Display Employee Names
+
             int x = -1; // Initialize with an invalid value
+            
             // Prompt user to enter valid employee number
             while (x < 1 || x > MAX_EMPLOYEE_NUMBER) {
                 try {
@@ -56,6 +61,7 @@ public class MotorPHEmployee {
 
             // Display employee information if employee number is valid
             if (x >= 1 && x <= MAX_EMPLOYEE_NUMBER) {
+
                 // Display employee information
                 clearOutputWindow();
                 System.out.println("-----------------------------------------");
@@ -96,7 +102,7 @@ public class MotorPHEmployee {
                 }
 
                 // Variables to calculate various metrics
-                int presentCounter = 0, absentCounter = 0, totalLate = 0, overtimeCounter = 0;
+                int presentCounter = 0, absentCounter = 0, totalLate = 0, overtimeCounter = 0, undertimeCounter = 0;
                 double totalWorkedHours = 0, totalSalary = 0;
 
                 // Capture time in and out for each day and calculate metrics
@@ -140,45 +146,55 @@ public class MotorPHEmployee {
                     }   
                 
                     // Calculate total worked hours
-                    double workedHours = (timeOutHours - timeInHours);
-                
-                    // Grace Period
+                    int workedHours;
+                    if (timeOutHours < timeInHours) {
+                    // Handle cases where the time out is on the next day
+                         workedHours = (24 - timeInHours) + timeOutHours;
+                    } else {
+                     // Handle regular cases
+                        workedHours = timeOutHours - timeInHours;
+                    }
+
+                    // Decrement worked hours if employee logs in with minutes, but not affected by the grace period
+                    if (timeInMinutes > 0 && timeInHours != STANDARD_WORK_START_HOUR) {
+                        workedHours--;
+                    }
+
+                    // Decrement worked hours if employee logs in after the grace period
                     if (timeInMinutes > GRACE_PERIOD_MINUTES && timeInHours == STANDARD_WORK_START_HOUR) {
                         workedHours--;
-                    }
-                
-                    // 9AM beyond
-                    if (timeInConvMinutes > NINE_AM_MINUTES) {
+                    } 
+
+                    // Break Time (Assuming you will granted breaktime when you worked for more than 6 hours)
+                    if (workedHours > MAX_BREAK_HOURS) { // Worked for more than 6 hours
                         workedHours--;
                     }
-                
+                    
                     String status = ""; // Variable to store the status
                 
                     // Late Counter
                     if (timeInConvMinutes > EIGHT_TEN_AM_MINUTES) {
                         totalLate++;
                         status = "Late";
+                    } else if (timeInConvMinutes == 0 && timeOutConvMinutes == 0) {
+                        absentCounter++;
+                        status = "Absent";
                     } else {
-                        // Absent Counter
-                        if (timeOutConvMinutes == 0 && timeInConvMinutes == 0) {
-                            absentCounter++;
-                            status = "Absent";
-                        } else {
-                            presentCounter++;
-                            status = "Present";
-                        }
+                                            presentCounter++;
+                        status = "Present";
                     }
-            
+
                     // Overtime Counter
-                    if (workedHours > 9){
+                    if (workedHours > 9) {
                         overtimeCounter++;
+                        status = "Overtime";
                     }
-                
-                    // Break Time
-                    if (workedHours > MAX_BREAK_HOURS) { // Worked for more than 4 hours
-                        workedHours--;
+                    // Undertime Counter
+                    if (workedHours < 8) {
+                       undertimeCounter++;
+                        status = "Undertime";
                     }
-                
+
                     // Calculate the salary for the day based on the worked hours
                     double dailySalary = workedHours * employee.HourlyRate[index];
                 
@@ -186,7 +202,7 @@ public class MotorPHEmployee {
                     totalSalary += dailySalary;
                     totalWorkedHours += workedHours;
                     
-                    System.out.println("DAY " + (index));
+                    System.out.println("DAY " + (i + 1));
                     System.out.println("Total Worked Hours : " + workedHours);
                     System.out.println("Daily Salary : " + dailySalary);
                     // Print the status for the day
@@ -194,6 +210,7 @@ public class MotorPHEmployee {
                     System.out.print("\n");
                 }
 
+                // Ask user if they want to generate Payslip
                 System.out.println("Do you want to create Payslip? (Y/N)");
                 String response = scan.next();
 
@@ -207,7 +224,6 @@ public class MotorPHEmployee {
                     // PagIbig Contribution Declaration
                     double pagibigContribution = calculatePagibigContribution(totalSalary);
                     
-
         //Payslip
         clearOutputWindow();
         // Display header
@@ -230,6 +246,7 @@ public class MotorPHEmployee {
         System.out.printf("%-20s: %s%n", "Total Absent", absentCounter);
         System.out.printf("%-20s: %s%n", "Total Late", totalLate);
         System.out.printf("%-20s: %s%n", "Total Overtime", overtimeCounter);
+        System.out.printf("%-20s: %s%n", "Total Undertime", undertimeCounter);
         System.out.printf("%-20s: %s%n", "Total Worked Hours", totalWorkedHours);
         System.out.println();
 
@@ -1109,8 +1126,8 @@ public class MotorPHEmployee {
             }  
 
             //Display Employee
-            public static void displayEmployee() {
-                        // Print employee list
+        public static void displayEmployee() {
+        // Print employee list
         System.out.println("\t\t+-------------+--------------+----------------+");
         System.out.println("\t\t| Employee #  | Last Name    | First Name     |");
         System.out.println("\t\t+-------------+--------------+----------------+");
@@ -1165,22 +1182,19 @@ public class MotorPHEmployee {
     }
 
     // Instruction
-    public static void printInstruction() {
-                System.out.println("Welcome to the MotorPH Employee Management System!");
-                System.out.println("This program allows you to generate payslips for MotorPH employees based on their attendance and other relevant details.");
-                System.out.println("To begin, please follow the instructions provided.");
-                System.out.println();
-                System.out.println("Instructions:");
-                System.out.println("1. You will be prompted to enter an employee number between 1 and 34.");
-                System.out.println("2. Once you enter a valid employee number, you will see the employee's information, including their name, contact details, and employment status.");
-                System.out.println("3. You will then be asked to input the number of days the employee worked during the pay period (maximum of 31 days).");
-                System.out.println("4. For each working day, you will need to enter the time in and time out in the format HH:MM.");
-                System.out.println("5. The system will calculate various metrics, such as total worked hours, presence, lateness, overtime, and more.");
-                System.out.println("6. After inputting all the necessary information, you will have the option to generate a payslip for the employee.");
-                System.out.println("7. The payslip will display detailed information about the employee's attendance, earnings, deductions, and net pay.");
-                System.out.println("8. You can choose to generate payslips for multiple employees or exit the program.");
-                System.out.println();
-                System.out.println("Let's get started!");
-                System.out.print("\n");
-    }
+        public static void printInstruction() {
+            System.out.println("Welcome to the MotorPH Employee Management System!");
+            System.out.println("This program generates payslips based on employee attendance and details.");
+            System.out.println("Instructions:");
+            System.out.println("1. Enter an employee number (1-34) to view their information.");
+            System.out.println("2. Input the number of days worked (max: 31) and time in/out (HH:MM).");
+            System.out.println("   - Time in: 8:00 - 17:00 (grace period: 10 minutes)");
+            System.out.println("   - If within the grace period, you won't be marked as late.");
+            System.out.println("   - Breaktime automatically deducted for shifts >6 hours.");
+            System.out.println("3. System calculates metrics: worked hours, lateness, overtime, etc.");
+            System.out.println("4. Generate payslip displaying attendance, earnings, deductions, and net pay.");
+            System.out.println("5. Option to generate payslips for more employees or exit the program.");
+            System.out.println("Let's get started!");
+            System.out.println();
+        }
 }
