@@ -38,7 +38,7 @@ For our project management, we used Google Spreadsheet and Jira Software to achi
 - It saved us time and resources.
 - Better Project Planning = Better Project Outcomes.
 
-  Links:
+Links:
 - [Google Spreadsheet](https://docs.google.com/spreadsheets/d/1hveaIo_RQaeWB975ikwjrxHinlu2gHpBqsrP3sTJHco/edit#gid=1584572912)
 - [Jira Software](https://motorph.atlassian.net/jira/software/projects/KAN/boards/1)
 
