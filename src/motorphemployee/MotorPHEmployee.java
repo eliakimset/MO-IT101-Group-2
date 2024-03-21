@@ -21,7 +21,8 @@ public class MotorPHEmployee {
         private static final int MAX_EMPLOYEE_NUMBER = 34;//Maximum Employee
         private static final int MAX_DAYS_WORKED = 31; //Assuming the Maximum working days is 31
         private static final int GRACE_PERIOD_MINUTES = 10; // Grace Period
-        private static final int STANDARD_WORK_START_HOUR = 8; //Work will start at 8
+        private static final int STANDARD_WORK_START_HOUR = 8; //Work will start at 8 (8:00 AM)
+        private static final int STANDARD_WORK_END_HOUR = 17; //Work will end at 17 (5:00 PM)
         private static final int EIGHT_TEN_AM_MINUTES = 490; //8:10 AM
         private static final int MAX_BREAK_HOURS = 6; //Assuming you'll get a break when you worked for more than 6 hours
 
@@ -33,12 +34,13 @@ public static void main(String[] args) {
         // Display header
         displayHeader();
 
-        // Display Instruction
-        printInstruction();
         char choice;
-
         //Loop for allowing repeating the program
+
         do { 
+
+             printInstruction(); // Display Instruction
+            
             displayEmployee(); // Display Employee Names
 
             int x = -1; // Initialize with an invalid value
@@ -170,10 +172,10 @@ public static void main(String[] args) {
                         workedHours--;
                     }
                     
-                    String status = ""; // Variable to store the status
+                    String status = ""; // Variable to store the status for the day
                 
                     // Late Counter
-                    if (timeInConvMinutes > EIGHT_TEN_AM_MINUTES) {
+                    if (timeInConvMinutes > EIGHT_TEN_AM_MINUTES && workedHours < 8) {
                         totalLate++;
                         status = "Late";
                     } else if (timeInConvMinutes == 0 && timeOutConvMinutes == 0) {
@@ -189,8 +191,9 @@ public static void main(String[] args) {
                         overtimeCounter++;
                         status = "Overtime";
                     }
+
                     // Undertime Counter
-                    if (workedHours < 8) {
+                    if (workedHours < STANDARD_WORK_START_HOUR && timeOutHours < STANDARD_WORK_END_HOUR) {
                        undertimeCounter++;
                         status = "Undertime";
                     }
